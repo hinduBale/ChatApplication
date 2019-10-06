@@ -1,7 +1,5 @@
 package saxenism.chatApp.client;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
-
 import java.io.*;
 import java.net.*;
 
@@ -38,7 +36,7 @@ public class WriteThread extends Thread{
         do {
             text = console.readLine("[" + userName + "]: ");
             writer.println(text);
-        } while (!text.equals("Bye") || !text.equals("bye") || !text.equals("BYE"));
+        } while (!text.equals("bye"));
 
         try {
             socket.close();

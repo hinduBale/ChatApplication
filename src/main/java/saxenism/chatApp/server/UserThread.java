@@ -1,7 +1,7 @@
 package saxenism.chatApp.server;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.util.*;
+import java.text.*;
 import java.net.*;
 import java.io.*;
 
@@ -15,10 +15,18 @@ public class UserThread extends Thread {
         this.socket = socket;
         this.server = server;
     }
+
+    DateFormat df = new SimpleDateFormat("dd_MM_yy_HH_mm_ss");
+    Date dateobj = new Date();
+    String filePath ="C:\\Users\\Rahul\\Desktop\\saxenismChat\\"+df.format(dateobj)+".txt";
     public void run()
     {
         try
         {
+            File file = new File(filePath);
+            FileWriter fileWriter = new FileWriter(file, true);
+            PrintWriter pWrite = new PrintWriter(fileWriter);
+
             InputStream input = socket.getInputStream();//The getInputStream method of the Java socket class returns an input stream for the given socket.
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
@@ -38,9 +46,10 @@ public class UserThread extends Thread {
             do
             {
                 clientMessage = reader.readLine();
-                serverMessage = "[" + userName + "]" + clientMessage;
+                serverMessage = "[" + userName + "]: " + clientMessage;
+                pWrite.println(serverMessage);
                 server.broadcast(serverMessage, this);
-            }while(!clientMessage.equals("bye") || !clientMessage.equals("BYE") || !clientMessage.equals("Bye"));
+            }while(!clientMessage.equals("bye"));
 
             server.removeUser(userName, this);
             socket.close();
@@ -67,5 +76,7 @@ public class UserThread extends Thread {
     {
         writer.println(message);
     }
+
+
 }
 

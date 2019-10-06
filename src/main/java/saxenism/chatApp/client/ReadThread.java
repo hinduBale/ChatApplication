@@ -32,10 +32,8 @@ public class ReadThread extends Thread{
             try
             {
                 String response = reader.readLine();
-                System.out.println("\n" + response);
+                System.out.println(response);
 
-                if(client.getUserName() != null)
-                    System.out.println("[" + client.getUserName() + "]: ");
             }
             catch (IOException e)
             {
